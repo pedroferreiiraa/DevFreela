@@ -2,6 +2,6 @@
 
 public class UserSkillsInputModel
 {
-    public int SkillIds { get; set; }
+    public int[] SkillIds { get; set; }
     public int Id {get; set;}
 }
