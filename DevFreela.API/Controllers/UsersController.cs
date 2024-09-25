@@ -14,6 +14,12 @@ public class UsersController : ControllerBase
     {
         return Ok();
     }
+
+    [HttpPost("{id}/skills")]
+    public IActionResult PutSkills(UserSkillsInputModel model)
+    {
+        return NoContent();
+    }
     
     [HttpPut("{id}/profile-picture")]
     public IActionResult PostProfilePicture(IFormFile file)
