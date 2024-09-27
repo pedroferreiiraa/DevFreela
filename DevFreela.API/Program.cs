@@ -1,35 +1,34 @@
 using DevFreela.API.ExceptionHandler;
-using DevFreela.API.Models;
-using DevFreela.API.Persistence;
-using DevFreela.API.Services;
+using DevFreela.Application;
+using DevFreela.Application.Models;
+using DevFreela.Application.Services;
+using DevFreela.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.Configure<FreelanceTotalCostConfig>(
-    builder.Configuration.GetSection("FreelanceTotalCostConfig")
-);
-
-builder.Services.AddSingleton<IConfigService, ConfigService>();
-
-// builder.Services.AddDbContext<DevFreelaDbContext>(o => o.UseInMemoryDatabase("DevFreelaDb"));
-var connectionString = builder.Configuration.GetConnectionString("DevFreelaCS");
-
+// Configuração do banco de dados
+var connectionString = builder.Configuration.GetConnectionString("DevFreelaCs");
 builder.Services.AddDbContext<DevFreelaDbContext>(o => o.UseSqlServer(connectionString));
 
+// Registra o Application Layer
+builder.Services.AddApplication();
+
+// Registro do serviço de usuário (IUserService e UserService)
+builder.Services.AddScoped<IUserService, UserService>();
+
+// Registro para tratamento de exceções e detalhes de problemas
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+// Configuração de controllers e Swagger
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuração do pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

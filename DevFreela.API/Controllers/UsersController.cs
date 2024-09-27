@@ -1,6 +1,7 @@
-﻿using DevFreela.API.Entities;
-using DevFreela.API.Models;
-using DevFreela.API.Persistence;
+﻿using DevFreela.Application.Models;
+using DevFreela.Application.Services;
+using DevFreela.Core.Entities;
+using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,11 +12,21 @@ namespace DevFreela.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly DevFreelaDbContext _context;
-        public UsersController(DevFreelaDbContext context)
+        private readonly IUserService _service;
+        public UsersController(DevFreelaDbContext context, IUserService service)
         {
             _context = context;
+            _service = service;
         }
 
+        [HttpGet]
+        public IActionResult Get(string search = "")
+        {
+            var result =  _service.GetAll();
+
+            return Ok(result);
+        }
+        
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -38,14 +49,24 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public IActionResult Post(CreateUserInputModel model)
         {
-            var user = new User(model.FullName, model.Email, model.BirthDate);
+            var result = _service.Insert(model);
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, model);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _service.Delete(id);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
+            }
 
             return NoContent();
         }
-
+        
         [HttpPost("{id}/skills")]
         public IActionResult PostSkills(int id, UserSkillsInputModel model)
         {

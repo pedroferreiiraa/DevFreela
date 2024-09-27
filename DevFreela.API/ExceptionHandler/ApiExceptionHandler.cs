@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevFreela.API.ExceptionHandler;
-
-public class ApiExceptionHandler : IExceptionHandler
+namespace DevFreela.API.ExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public class ApiExceptionHandler : IExceptionHandler
     {
-        var details = new ProblemDetails
+        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            Status = StatusCodes.Status500InternalServerError,
-            Title = "Internal Server Error",
-        };
-        
-        // Fazer o que rpeferir, como logar o erro
-        
-        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);
+            var details = new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Server Error"
+            };
 
-        return true;
+            // Fazer o que preferir, como logar o erro
+
+            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);
+
+            return true;
+        }
     }
 }
