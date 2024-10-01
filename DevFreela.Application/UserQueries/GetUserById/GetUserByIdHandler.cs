@@ -17,6 +17,8 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, ResultViewMo
     public async Task<ResultViewModel<UserViewModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var user = await _context.Users
+            .Include(u => u.Skills)
+            .ThenInclude(u => u.Skill)
             .SingleOrDefaultAsync(u => u.Id == request.Id);
 
         if (user is null)

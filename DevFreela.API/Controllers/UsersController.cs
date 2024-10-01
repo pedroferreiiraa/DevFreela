@@ -36,9 +36,9 @@ namespace DevFreela.API.Controllers
         }
         
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id, int idSkill)
         {
-            var result = await _mediator.Send(new GetUserByIdQuery(id));
+            var result = await _mediator.Send(new GetUserByIdQuery(id, idSkill));
 
             if (!result.IsSuccess)
             {
@@ -52,8 +52,6 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(InsertUserCommand command)
         {
-            // var result = _service.Insert(model);
-
             var result = await _mediator.Send(command);
             
             return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
