@@ -15,4 +15,5 @@ public interface IUserService
     ResultViewModel<UserViewModel> GetById(int id);
     
     ResultViewModel Delete(int id);
+    
 }

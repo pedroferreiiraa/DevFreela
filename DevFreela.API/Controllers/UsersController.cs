@@ -15,7 +15,7 @@ namespace DevFreela.API.Controllers
         private readonly IUserService _service;
         public UsersController(DevFreelaDbContext context, IUserService service)
         {
-            _context = context;
+ 
             _service = service;
         }
 
