@@ -13,12 +13,29 @@
 
     <ItemGroup>
       <PackageReference Include="MediatR" Version="12.4.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="ProjectsCommands\" />
       <Folder Include="ProjectsQueries\" />
-      <Folder Include="UsersQueries\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="UsersCommands\InsertSkillUserCommand.cs" />
+      <Compile Remove="UsersCommands\InsertUserSkillHandler.cs" />
+      <Compile Remove="UsersCommands\UploadUserProfilePicture\**" />
+      <Compile Remove="Services\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="UsersCommands\UploadUserProfilePicture\**" />
+      <EmbeddedResource Remove="Services\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="UsersCommands\UploadUserProfilePicture\**" />
+      <None Remove="Services\**" />
     </ItemGroup>
 
 </Project>

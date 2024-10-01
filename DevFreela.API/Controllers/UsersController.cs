@@ -1,9 +1,13 @@
-﻿using DevFreela.Application.Models;
-using DevFreela.Application.Services;
-using DevFreela.Core.Entities;
+﻿
+using DevFreela.Application.UserQueries;
+using DevFreela.Application.UserQueries.GetUserById;
+using DevFreela.Application.UsersCommands;
+using DevFreela.Application.UsersCommands.InsertSkillUser;
+
 using DevFreela.Infrastructure.Persistence;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace DevFreela.API.Controllers
 {
@@ -12,52 +16,55 @@ namespace DevFreela.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly DevFreelaDbContext _context;
-        private readonly IUserService _service;
-        public UsersController(DevFreelaDbContext context, IUserService service)
+        
+        private readonly IMediator _mediator;
+        
+        public UsersController(DevFreelaDbContext context, IMediator mediator)
         {
- 
-            _service = service;
+            
+            _context = context;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Get(string search = "")
+        public async  Task<IActionResult> Get(string search = "")
         {
-            var result =  _service.GetAll();
-
+            var query = new GetAllUsersQuery();
+            
+            var result = await _mediator.Send(query);
+            
+            
             return Ok(result);
         }
         
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var user = _context.Users
-                .Include(u => u.Skills)
-                .ThenInclude(u => u.Skill)
-                .SingleOrDefault(u => u.Id == id);
+            var result = await _mediator.Send(new GetUserByIdQuery(id));
 
-            if (user is null)
+            if (!result.IsSuccess)
             {
-                return NotFound();
+                return BadRequest(result.Message);
             }
-
-            var model = UserViewModel.FromEntity(user);
-
-            return Ok(model);
+            
+            return Ok(result);
         }
 
         // POST api/users
         [HttpPost]
-        public IActionResult Post(CreateUserInputModel model)
+        public async Task<IActionResult> Post(InsertUserCommand command)
         {
-            var result = _service.Insert(model);
+            // var result = _service.Insert(model);
 
-            return CreatedAtAction(nameof(GetById), new { id = result.Data }, model);
+            var result = await _mediator.Send(command);
+            
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = _service.Delete(id);
+            var result = await _mediator.Send(new DeleteUserCommand(id));
 
             if (!result.IsSuccess)
             {
@@ -68,14 +75,11 @@ namespace DevFreela.API.Controllers
         }
         
         [HttpPost("{id}/skills")]
-        public IActionResult PostSkills(int id, UserSkillsInputModel model)
+        public async Task<IActionResult> PostSkills(InsertSkillUserCommand command)
         {
-            var userSkills = model.SkillIds.Select(s => new UserSkill(id, s)).ToList();
-
-            _context.UserSkills.AddRange(userSkills);
-            _context.SaveChanges();
-
-            return NoContent();
+            var result = await _mediator.Send(command);
+            
+            return Ok(result);
         }
 
         [HttpPut("{id}/profile-picture")]

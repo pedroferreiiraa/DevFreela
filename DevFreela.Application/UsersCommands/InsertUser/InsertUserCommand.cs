@@ -2,9 +2,10 @@ using DevFreela.Application.Models;
 using DevFreela.Core.Entities;
 using MediatR;
 
+
 namespace DevFreela.Application.UsersCommands;
 
-public class InsertUserCommand : IRequest<ResultViewModel>
+public class InsertUserCommand : IRequest<ResultViewModel<int>>
 {
     public InsertUserCommand(string fullName, string email, DateTime birthDate)
     {
@@ -13,10 +14,11 @@ public class InsertUserCommand : IRequest<ResultViewModel>
         BirthDate = birthDate;
     }
 
-    public string FullName { get;  set; }
-    public string Email { get;   set; }
-    public DateTime BirthDate { get;   set; }
+    public string FullName { get; private set; }
+    public string Email { get; private set; }
+    public DateTime BirthDate { get; private set; }
 
+    // Método para converter o comando em uma entidade User
     public User ToEntity()
-        => new( FullName = FullName, Email = Email, BirthDate = BirthDate );
+        => new User(FullName, Email, BirthDate);
 }
