@@ -27,13 +27,8 @@
 
 ## 🛠️ Status do Projeto
 
-Atualmente, a lógica do projeto está finalizada, e estou me preparando para implementar a Clean Architecture e o padrão CQRS para otimizar ainda mais a estrutura do código.
+Finalizado. 
 
-## 💡 Próximos Passos
 
-- Implementar Clean Architecture
-- Integrar o padrão CQRS
-- Adicionar testes unitários e de integração
-- Expandir a documentação
 
 
