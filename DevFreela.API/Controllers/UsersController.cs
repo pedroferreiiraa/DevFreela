@@ -15,14 +15,12 @@ namespace DevFreela.API.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly DevFreelaDbContext _context;
+        
         
         private readonly IMediator _mediator;
         
         public UsersController(DevFreelaDbContext context, IMediator mediator)
         {
-            
-            _context = context;
             _mediator = mediator;
         }
 

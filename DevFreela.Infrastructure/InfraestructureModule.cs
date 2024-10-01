@@ -27,6 +27,8 @@ public static class InfrastructureModule
 
         return services;
     }
+    
+    
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IProjectRepository, ProjectRepository>();
