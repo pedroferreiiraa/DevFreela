@@ -17,6 +17,7 @@ namespace DevFreela.API.Controllers
 {
     [ApiController]
     [Route("api/users")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         
@@ -54,6 +55,7 @@ namespace DevFreela.API.Controllers
 
         // POST api/users
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post(InsertUserCommand command)
         {
             var result = await _mediator.Send(command);

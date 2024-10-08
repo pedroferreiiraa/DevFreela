@@ -65,7 +65,7 @@ builder.Services
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey
-                (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
         };
     });
 
@@ -82,9 +82,16 @@ app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
+
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+#pragma warning disable ASP0014
+app.UseEndpoints(endpoins =>
+{
+    endpoins.MapControllers();
+});
 
 app.Run();
