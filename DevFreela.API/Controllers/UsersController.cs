@@ -11,6 +11,7 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using InsertSkillUserCommand = DevFreela.Application.UsersCommands.InsertSkillUser.InsertSkillUserCommand;
 
 
 namespace DevFreela.API.Controllers
@@ -84,15 +85,7 @@ namespace DevFreela.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}/profile-picture")]
-        public IActionResult PostProfilePicture(int id, IFormFile file)
-        {
-            var description = $"FIle: {file.FileName}, Size: {file.Length}";
-
-            // Processar a imagem
-
-            return Ok(description);
-        }
+  
 
         [HttpPut("login")]
         [AllowAnonymous]
