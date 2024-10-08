@@ -20,10 +20,10 @@ public static class InfrastructureModule
 
     private static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DevFreelaCs");
-
-        services.AddDbContext<DevFreelaDbContext>(o => o.UseSqlServer(connectionString));
-
+        // var connectionString = configuration.GetConnectionString("DevFreelaCs");
+        //
+        // services.AddDbContext<DevFreelaDbContext>(o => o.UseSqlServer(connectionString));
+        services.AddDbContext<DevFreelaDbContext>(o => o.UseInMemoryDatabase("InMemoryDatabase"));
 
         return services;
     }
