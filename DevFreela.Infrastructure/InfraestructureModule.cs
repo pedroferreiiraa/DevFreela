@@ -1,4 +1,6 @@
 using DevFreela.Core.Repositories;
+using DevFreela.Core.Services;
+using DevFreela.Infrastructure.AuthServices;
 using DevFreela.Infrastructure.Persistence;
 using DevFreela.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +34,12 @@ public static class InfrastructureModule
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IUserRepository, UserRepository > ();
+        services.AddScoped<IAuthService, AuthService>();
 
+        
+        
+        
         return services;
     }
 }

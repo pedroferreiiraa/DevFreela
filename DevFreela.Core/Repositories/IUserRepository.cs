@@ -9,4 +9,6 @@ public interface IUserRepository
     Task<int> Add(User user);
     Task Update(User user);
 
+    Task<User> GetUserByEmailAndPasswordAsync(string email, string passwordHash);
+
 }
