@@ -1,17 +1,15 @@
 ﻿
-using DevFreela.Application.UserQueries;
-using DevFreela.Application.UserQueries.GetAllUsers;
-using DevFreela.Application.UserQueries.GetUserById;
-using DevFreela.Application.UsersCommands;
-using DevFreela.Application.UsersCommands.DeleteUser;
-using DevFreela.Application.UsersCommands.InsertSkillUser;
-using DevFreela.Application.UsersCommands.InsertUser;
-using DevFreela.Application.UsersCommands.LoginUser;
+using DevFreela.Application.Commands.UsersCommands.DeleteUser;
+using DevFreela.Application.Commands.UsersCommands.InsertUser;
+using DevFreela.Application.Commands.UsersCommands.LoginUser;
+using DevFreela.Application.Queries.UserQueries.GetAllUsers;
+using DevFreela.Application.Queries.UserQueries.GetUserById;
+
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using InsertSkillUserCommand = DevFreela.Application.UsersCommands.InsertSkillUser.InsertSkillUserCommand;
+using InsertSkillUserCommand = DevFreela.Application.Commands.UsersCommands.InsertSkillUser.InsertSkillUserCommand;
 
 
 namespace DevFreela.API.Controllers
@@ -46,9 +44,9 @@ namespace DevFreela.API.Controllers
         {
             var result = await _mediator.Send(new GetUserByIdQuery(id, idSkill));
 
-            if (!result.IsSuccess)
+            if (result == null)
             {
-                return BadRequest(result.Message);
+                return null;
             }
             
             return Ok(result);

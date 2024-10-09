@@ -2,7 +2,7 @@ using DevFreela.Application.Models;
 using DevFreela.Core.Entities;
 using MediatR;
 
-namespace DevFreela.Application.UsersCommands.InsertUser;
+namespace DevFreela.Application.Commands.UsersCommands.InsertUser;
 
 public class InsertUserCommand : IRequest<ResultViewModel<int>>
 {

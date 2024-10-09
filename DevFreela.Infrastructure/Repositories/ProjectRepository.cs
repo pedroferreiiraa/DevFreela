@@ -49,6 +49,19 @@ public class ProjectRepository : IProjectRepository
             .SingleOrDefaultAsync(p => p.Id == id);
     }
 
+    public async Task<Project> GetDetailsByIdAsync(int id)
+    {
+        return (await _context.Projects
+            .Include(p => p.Client)
+            .Include(p => p.Freelancer)
+            .SingleOrDefaultAsync(p => p.Id == id))!;
+    }
+
+    public async Task<List<Project>> GetAllAsync()
+    {
+        return await _context.Projects.ToListAsync();
+    }
+
     public async Task<Project?> GetDetailsById(int id)
     {
         var project = await _context.Projects

@@ -3,7 +3,7 @@ using DevFreela.Core.Services;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
-namespace DevFreela.Application.UsersCommands.InsertUser;
+namespace DevFreela.Application.Commands.UsersCommands.InsertUser;
 
 public class InsertUserHandler : IRequestHandler<InsertUserCommand, ResultViewModel<int>>
 {

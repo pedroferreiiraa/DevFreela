@@ -1,11 +1,11 @@
-﻿using DevFreela.Application.ProjectsCommands.CompleteProject;
-using DevFreela.Application.ProjectsCommands.DeleteProject;
-using DevFreela.Application.ProjectsCommands.InsertComment;
-using DevFreela.Application.ProjectsCommands.InsertProject;
-using DevFreela.Application.ProjectsCommands.StartProject;
-using DevFreela.Application.ProjectsCommands.UpdateProject;
-using DevFreela.Application.ProjectsQueries.GetAllProjects;
-using DevFreela.Application.ProjectsQueries.GetProjectById;
+﻿using DevFreela.Application.Commands.ProjectsCommands.CompleteProject;
+using DevFreela.Application.Commands.ProjectsCommands.DeleteProject;
+using DevFreela.Application.Commands.ProjectsCommands.InsertComment;
+using DevFreela.Application.Commands.ProjectsCommands.InsertProject;
+using DevFreela.Application.Commands.ProjectsCommands.StartProject;
+using DevFreela.Application.Commands.ProjectsCommands.UpdateProject;
+using DevFreela.Application.Queries.ProjectsQueries.GetAllProjects;
+using DevFreela.Application.Queries.ProjectsQueries.GetProjectById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +31,7 @@ namespace DevFreela.API.Controllers
         public async Task<IActionResult> Get(string search = "")
         {
 
-            var query = new GetAllProjectsQuery();
+            var query = new GetAllProjectsQuery("");
             
             var result = await _mediator.Send(query);
             
@@ -45,10 +45,6 @@ namespace DevFreela.API.Controllers
         {
             var result = await _mediator.Send(new GetProjectByIdQuery(id));
 
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Message);
-            }
 
             return Ok(result);
         }

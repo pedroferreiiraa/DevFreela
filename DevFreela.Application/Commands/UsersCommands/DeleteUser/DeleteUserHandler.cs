@@ -3,7 +3,7 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.UsersCommands.DeleteUser;
+namespace DevFreela.Application.Commands.UsersCommands.DeleteUser;
 
 public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, ResultViewModel>
 {

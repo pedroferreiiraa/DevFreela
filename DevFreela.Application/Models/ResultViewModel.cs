@@ -34,7 +34,7 @@ namespace DevFreela.Application.Models
 
         public T? Data { get; private set; }
 
-        public static ResultViewModel<T> Success(T data)
+        public static ResultViewModel<int> Success(int data)
             => new(data);
 
         public static ResultViewModel<T> Error(string message)

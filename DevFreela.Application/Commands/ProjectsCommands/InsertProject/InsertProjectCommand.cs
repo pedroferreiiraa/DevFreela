@@ -2,7 +2,7 @@ using DevFreela.Application.Models;
 using DevFreela.Core.Entities;
 using MediatR;
 
-namespace DevFreela.Application.ProjectsCommands.InsertProject;
+namespace DevFreela.Application.Commands.ProjectsCommands.InsertProject;
 
 public class InsertProjectCommand : IRequest<ResultViewModel<int>>
 {

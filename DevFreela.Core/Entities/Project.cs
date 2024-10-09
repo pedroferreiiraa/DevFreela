@@ -29,6 +29,7 @@ namespace DevFreela.Core.Entities
         public DateTime? CompletedAt { get; private set; }
         public ProjectStatusEnum Status { get; private set; }
         public List<ProjectComment> Comments { get; private set; }
+        public DateTime? FinishedAt { get; set; }
 
         public void Cancel()
         {

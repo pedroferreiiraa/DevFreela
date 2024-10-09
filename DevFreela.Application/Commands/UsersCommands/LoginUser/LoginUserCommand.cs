@@ -1,7 +1,7 @@
 using DevFreela.Application.Models;
 using MediatR;
 
-namespace DevFreela.Application.UsersCommands.LoginUser;
+namespace DevFreela.Application.Commands.UsersCommands.LoginUser;
 
 public class LoginUserCommand : IRequest<LoginUserViewModel>
 {

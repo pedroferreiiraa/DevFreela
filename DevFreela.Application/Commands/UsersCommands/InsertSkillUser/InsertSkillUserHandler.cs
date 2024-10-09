@@ -3,7 +3,7 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.UsersCommands.InsertSkillUser;
+namespace DevFreela.Application.Commands.UsersCommands.InsertSkillUser;
 
 public class InsertSkillUserHandler : IRequestHandler<InsertSkillUserCommand, ResultViewModel>
 {

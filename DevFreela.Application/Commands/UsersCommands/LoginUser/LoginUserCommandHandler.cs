@@ -3,7 +3,7 @@ using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
 using MediatR;
 
-namespace DevFreela.Application.UsersCommands.LoginUser;
+namespace DevFreela.Application.Commands.UsersCommands.LoginUser;
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUserViewModel>
 {

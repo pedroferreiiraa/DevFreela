@@ -3,7 +3,7 @@ using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.UserQueries.GetAllUsers;
+namespace DevFreela.Application.Queries.UserQueries.GetAllUsers;
 
 public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, ResultViewModel<List<UserViewModel>>>
 {
@@ -19,8 +19,8 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, ResultViewMo
             .Where(u => !u.IsDeleted).ToListAsync();
         
         var model = users.Select(UserViewModel.FromEntity).ToList();
-        
-        return ResultViewModel<List<UserViewModel>>.Success(model);
+
+        return new ResultViewModel<List<UserViewModel>>(model);
     }
 }
 

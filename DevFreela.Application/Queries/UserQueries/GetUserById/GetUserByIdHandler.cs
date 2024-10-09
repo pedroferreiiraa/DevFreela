@@ -1,34 +1,32 @@
 using DevFreela.Application.Models;
+using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace DevFreela.Application.UserQueries.GetUserById;
+namespace DevFreela.Application.Queries.UserQueries.GetUserById;
 
-public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, ResultViewModel<UserViewModel>>
+public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserViewModel>
 {
-    private readonly DevFreelaDbContext _context;
-    public GetUserByIdHandler(DevFreelaDbContext context)
+    private readonly IUserRepository _userRepository;
+    public GetUserByIdHandler(IUserRepository userRepository)
     {
-        _context = context;
+        _userRepository = userRepository;
     }
     
     
-    public async Task<ResultViewModel<UserViewModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async Task<UserViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users
-            .Include(u => u.Skills)
-            .ThenInclude(u => u.Skill)
-            .SingleOrDefaultAsync(u => u.Id == request.Id);
+        var user = await _userRepository.GetByIdAsync(request.Id);
 
         if (user is null)
         {
-            return ResultViewModel<UserViewModel>.Error("User not found");
+            return null;
         }
 
         var model = UserViewModel.FromEntity(user);
-        
-        return ResultViewModel<UserViewModel>.Success(model);
+
+        return model;
 
     }
 }
